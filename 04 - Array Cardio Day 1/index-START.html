@@ -37,28 +37,97 @@
     
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    // console.log(inventors)
+
+    let filtered = inventors.filter(birthDate);
+    function birthDate(inventorData) {
+      // console.log(inventorData.year)
+      return inventorData.year >=1500&&inventorData.year < 1600
+    }
+    // let filtered = inventors.filter(birthDate => birthDate.year < 1600 && birthDate.year >=1500);
+    console.log(filtered)
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+    let firstnames = inventors.map(inventorName=>`${inventorName.first} ${inventorName.last}`);
+    console.log(firstnames)
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
 
+    let birthDateOrder = inventors.sort((a,b) => a.year-b.year)
+    console.log(birthDateOrder)
+
+
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
+    console.log(inventors.reduce((totalYears, inventor)=> totalYears+(inventor.passed-inventor.year),0))
+
+    // console.log(inventors.reduce((totalYears, inventor)=> {
+    //   return totalYears+(inventor.passed-inventor.year)
+    // },0))
+
+    // let yearsLived = 0
+    // for (let i =0; i<inventors.length; i++) {
+    //   yearsLived+=(inventors[i].passed-inventors[i].year)
+    // }
+    // console.log(yearsLived)
+
 
     // 5. Sort the inventors by years lived
+    let ageOrder = inventors.sort(compareAge)
+
+    function compareAge(a,b) {
+      return (b.passed-b.year)-(a.passed-a.year)
+    }
+    console.log(ageOrder);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
 
+    const category = document.querySelector('.mw-category')
+    const links = category.querySelectorAll('a');
+    // Error condition with map!
+// const de = links.map(link=>link.textContent);
+//VM557:1 Uncaught TypeError: links.map is not a function    at <anonymous>:1:18 (anonymous) @ VM557:1
+  //document queries return a NodeList. you have to convert to an array to use map
+//ES6 spread operator
+  // const links = [...category.querySelectorAll('a')];
+//or
+//Array Constructor
+// const links = Array.from(category.querySelectorAll('a'));
+
+const de = links
+              .map(link=>link.textContent)
+              .filter(streetName=>streetName.includes('de'));
+
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+const lastNameOrder3 = people.sort()
+function compareLastName(a,b) {
+  return (a.last)-(b.last)
+}
+console.log(lastNameOrder);
+// Alternative solution
+// const lastNameOrder3Alt = people.sort((lastOne, nextOne) => {
+//   const[aList, aFirst] = lastOne.split(", ")
+//   const[bList, bFirst] = nextOne.split(", ")
+//   // console.log(aList)
+//   return aList > bList ? -1: 1
+// })
+// console.log(lastNameOrder3Alt)
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const transportation = data.reduce((obj, item) => {
+    if (!obj[item]) {
+        obj[item] = 0;
+    }
+    obj[item]++
+    return obj
+  }, {})
 
   </script>
 </body>
